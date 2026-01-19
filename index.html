@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIEFTA.CHR</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2b2d31;        
+            --panel: #34363c;     
+            --border: #454852;    
+            --accent: #e5e7eb;    
+            --text-main: #f3f4f6; 
+            --text-dim: #9ca3af;  
+            --danger: #b4b4b4;    
+        }
+
+        * { 
+        box-sizing: border-box; 
+        margin: 0; padding: 0; 
+        font-family: 'JetBrains Mono', monospace; 
+        }
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+        }
+
+        .main-container { 
+            width: 90%; 
+            max-width: 900px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; }
+
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-bottom: 15px; 
+            border-bottom: 1px solid var(--border); 
+        }
+        .logo { 
+            font-weight: 300; 
+            letter-spacing: 
+            4px; font-size: 1.2rem; 
+        }
+        .accent-text { 
+            color: var(--accent); 
+            text-shadow: 0 0 10px rgba(16, 211, 165, 0.3); 
+        }
+
+        .mode-switcher { 
+            display: flex; 
+            gap: 5px; 
+            background: #34363c; 
+            padding: 4px; 
+            border-radius: 4px; 
+        }
+        .mode-btn { 
+            background: transparent; 
+            border: none; 
+            color: var(--text-dim); 
+            padding: 8px 20px; 
+            cursor: pointer; 
+            font-size: 0.7rem; 
+            text-transform: uppercase; 
+            transition: 0.2s; 
+            border-radius: 3px;
+        }
+        .mode-btn.active { 
+            background: var(--accent); 
+            color: #000; 
+            font-weight: bold; 
+        }
+
+        .card { 
+            background: var(--panel); 
+            border: 1px solid var(--border); 
+            padding: 25px; 
+            display: grid; 
+            grid-template-columns: 1.2fr 0.8fr; 
+            gap: 25px; 
+        }
+        @media (max-width: 768px) { 
+            .card { 
+                grid-template-columns: 1fr; 
+            } 
+        }
+
+        label { 
+            font-size: 0.6rem; 
+            color: var(--text-dim); 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            margin-bottom: 8px; 
+            display: block; 
+        }
+
+        textarea, input { 
+            width: 100%; 
+            background: #2b2d31; 
+            border: 1px solid var(--border); 
+            color: #fff; 
+            padding: 12px; 
+            outline: none; 
+            font-size: 0.85rem; 
+            transition: 0.3s;
+        }
+        textarea:focus, 
+        input:focus { 
+            border-color: 
+            var(--accent); 
+        }
+        textarea { 
+            height: 140px; 
+            resize: none; 
+        }
+
+        .btn-group { 
+            display: flex; 
+            gap: 10px; 
+            margin-top: 15px; 
+        }
+        .btn { 
+            flex: 1; 
+            padding: 12px; 
+            border: 1px solid var(--border); 
+            background: transparent; 
+            color: var(--text-main); 
+            cursor: pointer; 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            font-weight: bold;
+        }
+        .btn-main { 
+            border-color: 
+            var(--accent); 
+            color: var(--accent); 
+        }
+        .btn-main:hover { 
+            background: var(--accent); 
+            color: #2b2d31; 
+        }
+        .btn-reset { 
+            flex: 0.3; 
+            color: var(--danger); 
+            border-color: #450a0a; 
+        }
+        .btn-reset:hover { 
+            background: var(--danger); 
+            color: #fff; 
+        }
+        .tile { 
+            background: var(--panel); 
+            border: 1px solid var(--border); 
+            padding: 20px; 
+        }
+        .display { 
+            background: #2b2d31; 
+            padding: 15px; 
+            border: 1px solid #454852;
+            font-size: 0.75rem; 
+            color: var(--accent); 
+            word-break: break-all; 
+            max-height: 100px; 
+            overflow-y: auto; 
+            opacity: 0.9;
+        }
+        
+        .hidden { 
+            display: none; 
+        }
+        .status-msg { 
+            font-size: 0.7rem; 
+            margin-top: 10px; 
+            color: var(--text-dim); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="header">
+            <div class="logo">DIEFTA.<span class="accent-text">CHR</span></div>
+            <div class="mode-switcher">
+                <button id="btnText" class="mode-btn active" onclick="switchMode('text')">Text</button>
+                <button id="btnFile" class="mode-btn" onclick="switchMode('file')">File</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div id="inputZone">
+                <div id="textGrp">
+                    <label>Input Data</label>
+                    <textarea id="textIn" placeholder="Type or paste your secret message..."></textarea>
+                </div>
+                <div id="fileGrp" class="hidden">
+                    <label>Upload File</label>
+                    <input type="file" id="fileIn">
+                    <p class="status-msg" id="fileStatus">Ready to process...</p>
+                </div>
+            </div>
+
+            <div>
+                <label>Security Key</label>
+                <input type="password" id="masterKey" placeholder="Enter passphrase...">
+                
+                <div class="btn-group">
+                    <button class="btn btn-main" onclick="execute(true)">Encrypt</button>
+                    <button class="btn" onclick="execute(false)">Decrypt</button>
+                    <button class="btn btn-reset" onclick="resetAll()">✕</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="textOut" class="tile">
+            <label>Result Output</label>
+            <div id="res-aes" class="display">Waiting for input...</div>
+        </div>
+
+        <div id="fileOut" class="tile hidden">
+            <label>File Action</label>
+            <div id="fileInfo" class="status-msg" style="margin-bottom: 10px;">No file processed</div>
+            <button id="dlBtn" class="btn btn-main hidden" onclick="downloadFile()">Download Result</button>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'text';
+        let processedData = "";
+        let currentFileName = "";
+
+        function switchMode(m) {
+            currentMode = m;
+            document.getElementById('textGrp').classList.toggle('hidden', m !== 'text');
+            document.getElementById('textOut').classList.toggle('hidden', m !== 'text');
+            document.getElementById('fileGrp').classList.toggle('hidden', m !== 'file');
+            document.getElementById('fileOut').classList.toggle('hidden', m !== 'file');
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(m === 'text' ? 'btnText' : 'btnFile').classList.add('active');
+            resetAll();
+        }
+
+        function resetAll() {
+            document.getElementById('textIn').value = "";
+            document.getElementById('fileIn').value = "";
+            document.getElementById('masterKey').value = "";
+            document.getElementById('res-aes').innerText = "Waiting for input...";
+            document.getElementById('fileStatus').innerText = "Ready to process...";
+            document.getElementById('fileInfo').innerText = "No file processed";
+            document.getElementById('dlBtn').classList.add('hidden');
+            processedData = "";
+        }
+
+        async function execute(isEnc) {
+            const key = document.getElementById('masterKey').value;
+            if (!key) return alert("Security key required!");
+
+            if (currentMode === 'text') {
+                const input = document.getElementById('textIn').value;
+                if (!input) return;
+                try {
+                    if (isEnc) {
+                        const encrypted = CryptoJS.AES.encrypt(input, key).toString();
+                        document.getElementById('res-aes').innerText = encrypted;
+                    } else {
+                        const bytes = CryptoJS.AES.decrypt(input, key);
+                        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+                        document.getElementById('res-aes').innerText = decrypted || "!!! INVALID KEY !!!";
+                    }
+                } catch (e) { document.getElementById('res-aes').innerText = "ERROR: Data corrupted"; }
+            } else {
+                processFile(isEnc, key);
+            }
+        }
+
+        function processFile(isEnc, key) {
+            const fileInput = document.getElementById('fileIn');
+            if (fileInput.files.length === 0) return alert("Select a file first!");
+            
+            const file = fileInput.files[0];
+            currentFileName = file.name;
+            const reader = new FileReader();
+
+            document.getElementById('fileStatus').innerText = "Processing... please wait.";
+
+            reader.onload = function(e) {
+                try {
+                    const data = e.target.result;
+                    if (isEnc) {
+                        const wordArray = CryptoJS.lib.WordArray.create(data);
+                        processedData = CryptoJS.AES.encrypt(wordArray, key).toString();
+                        
+                        document.getElementById('fileInfo').innerText = `Encrypted: ${currentFileName}.enc`;
+                        document.getElementById('dlBtn').classList.remove('hidden');
+                    } else {
+                        const decrypted = CryptoJS.AES.decrypt(data, key);
+                        if (decrypted.sigBytes <= 0) throw new Error("Wrong Key");
+                        
+                        const typedArray = convertWordArrayToUint8Array(decrypted);
+                        saveAsFile(typedArray, currentFileName.replace('.enc', ''));
+                        document.getElementById('fileInfo').innerText = "File decrypted and downloaded.";
+                    }
+                    document.getElementById('fileStatus').innerText = "Task Complete.";
+                } catch (err) {
+                    alert("Decryption failed! Check your key.");
+                    document.getElementById('fileStatus').innerText = "Error encountered.";
+                }
+            };
+
+            if (isEnc) reader.readAsArrayBuffer(file);
+            else reader.readAsText(file);
+        }
+
+        function downloadFile() {
+            const blob = new Blob([processedData], { type: "text/plain" });
+            saveAsFile(blob, currentFileName + ".enc");
+        }
+
+        function saveAsFile(data, name) {
+            const blob = data instanceof Blob ? data : new Blob([data]);
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = name;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function convertWordArrayToUint8Array(wordArray) {
+            const words = wordArray.words;
+            const sigBytes = wordArray.sigBytes;
+            const u8 = new Uint8Array(sigBytes);
+            for (let i = 0; i < sigBytes; i++) {
+                u8[i] = (words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
+            }
+            return u8;
+        }
+    </script>
+</body>
+</html>
