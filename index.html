@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Notes - Portal Tugas & Materi Islam</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #ffffff;
+            --bg-sub: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent-blue: #0284c7;
+            --accent-light: #e0f2fe;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .logo span {
+            color: var(--accent-blue);
+        }
+
+        /* Top Layout Grid */
+        .top-section {
+            padding: 2rem 5% 1rem 5%;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+        }
+
+        /* Card Identitas Mahasiswa */
+        .identity-card {
+            background-color: var(--bg-sub);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .identity-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .identity-item {
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .identity-item i {
+            color: var(--accent-blue);
+            margin-top: 3px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .identity-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .identity-value {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .main-banner {
+            background-color: var(--bg-sub);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .badge {
+            background-color: var(--accent-light);
+            color: var(--accent-blue);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            width: max-content;
+            margin-bottom: 1rem;
+        }
+
+        .main-banner h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .main-banner p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Main Content Grid */
+        .content-container {
+            padding: 1rem 5% 4rem 5%;
+            display: grid;
+            grid-template-columns: 1.5fr 1.5fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* List Materi */
+        .news-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .news-card {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .news-card:hover {
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow);
+        }
+
+        .news-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .video-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: #000;
+            box-shadow: var(--shadow);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            padding: 4px 2px;
+            line-height: 1.4;
+        }
+
+        /* Galeri Poster */
+        .poster-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .poster-preview-box {
+            background-color: var(--bg-sub);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            aspect-ratio: 3 / 4;
+        }
+
+        .poster-preview-box:hover {
+            transform: scale(1.03);
+            border-color: var(--accent-blue);
+        }
+
+        .poster-preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .zoom-overlay-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.75);
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 6px;
+            text-align: center;
+            font-weight: 500;
+            backdrop-filter: blur(2px);
+        }
+
+        /* MODAL POPUP SYSTEM */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: var(--bg-main);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            width: 100%;
+            max-height: 85vh; 
+            overflow-y: auto; 
+        }
+
+        .modal-article { max-width: 650px; }
+        .modal-poster { max-width: 520px; text-align: center; }
+
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--bg-sub);
+            border-radius: 10px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            color: var(--text-main);
+        }
+
+        .modal h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 1.2rem;
+            font-size: 1.6rem;
+            padding-right: 1.5rem;
+        }
+
+        .modal-body {
+            color: #334155;
+            font-size: 1.05rem;
+            white-space: pre-line;
+            text-align: left;
+        }
+
+        .full-poster-img {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            background-color: var(--bg-sub);
+        }
+
+        @media (max-width: 900px) {
+            .top-section, .content-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigasi -->
+    <nav>
+        <div class="logo">ISLAMIC<span>NOTES</span></div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+            <i class="fa-solid fa-graduation-cap"></i> Tugas Studi Islam
+        </div>
+    </nav>
+
+    <!-- Atas: Grid Identitas & Banner Sorotan -->
+    <section class="top-section">
+        
+        <!-- Identitas Mahasiswa -->
+        <div class="identity-card">
+            <div class="identity-title">
+                <i class="fa-solid fa-id-card-user"></i> Identitas Pembuat
+            </div>
+            
+            <div class="identity-item">
+                <i class="fa-solid fa-user"></i>
+                <div>
+                    <span class="identity-label">Nama Lengkap</span>
+                    <span class="identity-value">Diefta Chaerunnisa</span>
+                </div>
+            </div>
+
+            <div class="identity-item">
+                <i class="fa-solid fa-hashtag"></i>
+                <div>
+                    <span class="identity-label">NIM</span>
+                    <span class="identity-value">312310266</span>
+                </div>
+            </div>
+
+            <div class="identity-item">
+                <i class="fa-solid fa-code"></i>
+                <div>
+                    <span class="identity-label">Program Studi</span>
+                    <span class="identity-value">Teknik Informatika</span>
+                </div>
+            </div>
+
+            <div class="identity-item">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <div>
+                    <span class="identity-label">Mata Kuliah</span>
+                    <span class="identity-value">Pendidikan Agama Islam - Semester 6</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banner Artikel Sorotan -->
+        <div class="main-banner">
+            <div class="badge"><i class="fa-solid fa-star"></i> Artikel Utama</div>
+            <h1>Makna & Urgensi Syahadatain dalam Kehidupan Muslim</h1>
+            <p>Ulasan mendalam mengenai rukun pertama, konsekuensi ikrar tauhid, serta implementasi nyata dalam kehidupan modern saat ini.</p>
+            <div style="font-size: 0.9rem; color: var(--accent-blue); font-weight:600; cursor:pointer;" onclick="openArticle(0)">
+                Baca Artikel Lengkap <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Bawah: Grid Konten Utama -->
+    <div class="content-container">
+        
+        <!-- Kiri: Daftar Materi Pembelajaran -->
+        <main class="news-grid">
+            <h2 class="section-title"><i class="fa-solid fa-list-check"></i> Materi Pembelajaran</h2>
+            
+            <div class="news-card" onclick="openArticle(0)">
+                <div class="news-meta"><i class="fa-solid fa-circle-bookmark"></i> Aqidah • Teologi</div>
+                <h3>Makna & Urgensi Syahadatain</h3>
+                <p>Syahadat bukan sekadar ucapan lisan, melainkan komitmen total yang mengubah seluruh paradigma hidup seorang hamba...</p>
+            </div>
+
+            <div class="news-card" onclick="openArticle(1)">
+                <div class="news-meta"><i class="fa-solid fa-circle-bookmark"></i> Teologi Islam • Eksistensi</div>
+                <h3>Makna dan Hakikat Manusia</h3>
+                <p>Memahami asal-usul serta tugas pokok kita di bumi sebagai hamba ('abid) dan juga pemimpin (khalifah)...</p>
+            </div>
+
+            <div class="news-card" onclick="openArticle(2)">
+                <div class="news-meta"><i class="fa-solid fa-circle-bookmark"></i> Al-Qur'an • Keutamaan</div>
+                <h3>Keutamaan Al-Qur'an sebagai Petunjuk</h3>
+                <p>Mengulas peran Al-Qur'an sebagai pedoman abadi, obat penenang jiwa (As-Syifa), serta penuntun arah umat...</p>
+            </div>
+
+            <div class="news-card" onclick="openArticle(3)">
+                <div class="news-meta"><i class="fa-solid fa-circle-bookmark"></i> Etika Digital • Studi Kasus</div>
+                <h3>Menyikapi Perilaku Masyarakat yang Menyimpang (Cyberbullying)</h3>
+                <p>Mengulas fenomena perundungan di dunia maya serta solusinya berdasarkan kacamata literasi digital dan nilai akhlak Islami...</p>
+            </div>
+        </main>
+
+        <!-- Kanan: Sidebar Video & Poster -->
+        <aside class="sidebar">
+            
+            <!-- Video Box -->
+            <div class="video-box">
+                <h2 class="section-title"><i class="fa-solid fa-video"></i> Video Dokumentasi</h2>
+                <div class="video-wrapper">
+                    <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    title="YouTube video player"
+                    allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-title">Pengantar Studi Islam: Memahami Konsep Dasar Pemikiran Agama di Era Cyber</div>
+            </div>
+
+            <!-- Galeri Poster -->
+            <div>
+                <h2 class="section-title"><i class="fa-solid fa-images"></i> Galeri Poster Tugas</h2>
+                
+                <div class="poster-gallery-grid">
+                     <div class="poster-preview-box"
+                        onclick="openPosterModal('Poster 1: Adab Berpakaian', 'img.png')">
+                        <img src="img.png" alt="Poster 1">
+                        <div class="zoom-overlay-text">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> Poster 1
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- WINDOW MODAL SYSTEM -->
+    <div id="portalModal" class="modal">
+        <div id="modalContainer" class="modal-content modal-article">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modalBadge" class="badge">Kategori</div>
+            <h2 id="modalTitle">Judul</h2>
+            <div id="modalBody" class="modal-body">Isi Konten...</div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Islamic Notes Portal • Tugas Mandiri Diefta Chaerunnisa.
+    </footer>
+
+    <script>
+        const articles = [
+            {
+                category: "Aqidah",
+                title: "Makna & Urgensi Syahadatain dalam Kehidupan Muslim",
+                content: `Syahadatain (dua kalimat syahadat) adalah rukun pertama sekaligus pondasi paling mendasar dalam bangunan Islam. Seseorang belum dianggap berserah diri seutuhnya sebelum mengikrarkan, memahami, dan mengimplementasikan maknanya dalam tindakan nyata.
+
+                Urgensi Utama Syahadatain:
+                1. Landasan Diterimanya Amal: Segala bentuk ibadah sosial maupun ritual tidak akan dinilai sah di sisi Allah tanpa didasari tauhid yang bersih dari kesyirikan.
+                2. Kunci Transformasi Kehidupan: Menuntun manusia keluar dari belenggu penghambaan makhluk menuju penghambaan sejati hanya kepada Sang Pencipta (Allah SWT).
+                
+                Konsekuensi dari Ikrar:
+                Ketika lisan berikrar, maka pikiran, hati, dan seluruh anggota badan harus tunduk mengikuti aturan-aturan syariat yang dibawa oleh Rasulullah SAW. Di era digital saat ini, urgensi syahadat memandu kita untuk tetap menjaga integritas moral dan jemari kita di media sosial agar selalu bernilai ibadah.`
+            },
+            {
+                category: "Teologi Islam",
+                title: "Makna dan Hakikat Manusia",
+                content: `Manusia diciptakan oleh Allah SWT dengan kombinasi fisik dan bekal spiritual yang paling sempurna di antara makhluk bumi lainnya. 
+
+                Berdasarkan dalil-dalil Naqli Al-Qur'an, manusia mengemban dua peran utama yang berjalan beriringan:
+                
+                1. Sebagai Hamba ('Abid):
+                Manusia memiliki kewajiban mutlak untuk beribadah dan tunduk secara total pada aturan Allah (sebagaimana ditegaskan dalam QS. Az-Zariyat: 56). Segala gerak-gerik kehidupan berpotensi menjadi pahala jika diniatkan untuk ibadah.
+                
+                2. Sebagai Khalifah di Bumi:
+                Diberikan mandat berupa akal dan kesadaran moral untuk memelihara kedamaian, mengelola ekosistem bumi, menegakkan keadilan, dan menyebarkan kemaslahatan bagi sesama makhluk. Manusia bertanggung jawab penuh atas segala bentuk kerusakan atau perbaikan yang mereka lakukan selama masa hidupnya.`
+            },
+            {
+                category: "Al-Qur'an",
+                title: "Keutamaan Al-Qur'an sebagai Petunjuk",
+                content: `Al-Qur'an diturunkan sebagai mukjizat pamungkas bagi umat manusia yang berfungsi sebagai peta penunjuk arah (Huda) serta penawar dahaga spiritual (As-Syifa).
+
+                Keutamaan berinteraksi dengan Al-Qur'an:
+                - Satu Huruf Bernilai Sepuluh Kebaikan: Setiap untaian ayat yang dibaca bernilai pahala besar yang dilipatgandakan oleh Allah SWT.
+                - Pemberi Syafaat di Hari Kiamat: Bagi mereka yang akrab, rajin membaca, serta berusaha menghafalkannya, Al-Qur'an akan datang sebagai pembela terbaik kelak.
+                
+                Membaca, mentadabburi, dan mengaplikasikannya di tengah tantangan modernitas abad ke-21 akan memberikan stabilitas emosional serta arah kompas moral yang kokoh agar jiwa tidak mudah terseret arus negatif zaman.`
+            },
+            {
+                category: "Etika Digital",
+                title: "Menyikapi Perilaku Masyarakat yang Menyimpang dari Nilai Moral dan Nilai Agama (Studi kasus: Cyberbullying)",
+                content: `Di era digital, kebebasan berekspresi di media sosial sering disalahartikan hingga memicu tindakan negatif seperti cyberbullying—yaitu tindakan perundungan, intimidasi, atau penghinaan sengaja melalui media digital. Bentuknya meliputi penyebaran kebohongan, peretasan akun, hingga pengucilan digital. Data (Kompas, 2025) menunjukkan skala yang mengkhawatirkan di mana 48% anak Indonesia pengguna internet mengaku pernah menjadi korban perundungan daring.
+
+                Dampak nyata terhadap remaja sangat berlapis. Secara psikologis memicu stres, depresi, kecemasan berlebih, rendahnya harga diri, bahkan risiko self-harm dan bunuh diri. Secara sosial, korban menarik diri dari interaksi, prestasi akademik menurun, serta hilangnya rasa percaya pada lingkungan.
+
+                A. NILAI AKHLAK ISLAMI SEBAGAI DASAR PENCEGAHAN
+                Al-Qur'an secara tegas melarang perilaku mencela dan memanggil dengan julukan buruk dalam Q.S. Al-Hujurat ayat 11–12. Islam mengajarkan komunikasi bermartabat (Qaulan Karima) yang mengedepankan maslahat dan menolak mudarat. Beberapa nilai akhlak kunci yang menjadi filter digital meliputi:
+                
+                1. Husnudzan (Berbaik Sangka): Mencegah terjebak dalam fitnah, gosip, atau hoaks (Sa'adah, 2022).
+                2. Tawadhu' (Rendah Hati): Menghindari narsisme digital dan sikap pamer superioritas.
+                3. Sabar (Pengendalian Diri): Menahan emosi agar tidak membalas hinaan daring dengan cara serupa.
+                4. Amar Ma'ruf Nahi Munkar: Berani menegur perundungan digital dengan cara santun dan adil.
+                5. Shidiq (Kejujuran): Menghindari pembuatan akun palsu atau penyebaran berita bohong.
+                6. Amanah (Tanggung Jawab): Menyadari konsekuensi dari setiap komentar atau konten yang disebar.
+                7. Ihsan (Ketulusan Berbuat Baik): Memberikan dukungan emosional yang menyejukkan bagi korban.
+                8. Ukhuwwah Islamiyyah (Persaudaraan): Menguatkan solidaritas dan perlindungan antar sesama.
+                9. Adālah (Keadilan): Bersikap objektif dan tidak diskriminatif di dunia maya.
+
+                B. STRATEGI MENYIKAPI CYBERBULLYING DI MASYARAKAT
+                1. Penerapan Tabayyun: Melakukan verifikasi dan validasi informasi sebelum bereaksi.
+                2. Kesadaran Moral-Legal: Memahami bahwa setiap ketikan memiliki dampak moral dan hukum yang setara dengan ucapan lisan.
+                3. Jalur Hukum: Jika masuk unsur pencemaran nama baik, pengancaman, atau penyebaran data pribadi, opsi laporan kepolisian adalah langkah terbaik untuk efek jera.
+
+                C. OPINI PRIBADI
+                Menurut saya, cyberbullying marak terjadi karena pengguna merasa lebih berani akibat identitas yang tersembunyi (anonimitas). Banyak pelaku menganggapnya sebatas "komentar candaan" tanpa memikirkan psikologis korban. Sebagai pengguna media sosial, kita wajib saling mengingatkan untuk berhenti mencela, rajin melakukan tabayyun, serta sadar penuh bahwa aktivitas di internet berdampak nyata pada kesehatan mental seseorang.
+
+                Referensi:
+                [1] F. A. Afroo and A. Yudita, "Pendidikan Akhlak Islami sebagai Strategi Preventif Cyberbullying pada Remaja Muslim," vol. 5, no. 3, pp. 429–446, 2025.`
+            }
+        ];
+
+        const modal = document.getElementById('portalModal');
+        const container = document.getElementById('modalContainer');
+
+        function openArticle(index) {
+            container.className = "modal-content modal-article";
+            document.getElementById('modalBadge').style.display = "inline-block";
+            document.getElementById('modalBadge').innerHTML = `<i class="fa-solid fa-bookmark"></i> ${articles[index].category}`;
+            document.getElementById('modalBadge').style.backgroundColor = "var(--accent-light)";
+            document.getElementById('modalBadge').style.color = "var(--accent-blue)";
+            
+            document.getElementById('modalTitle').innerText = articles[index].title;
+            document.getElementById('modalBody').innerHTML = articles[index].content;
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            container.scrollTop = 0;
+        }
+
+        function openPosterModal(title, imgUrl) {
+            container.className = "modal-content modal-poster";
+            document.getElementById('modalBadge').style.display = "inline-block";
+            document.getElementById('modalBadge').innerHTML = `<i class="fa-solid fa-expand"></i> FULL PREVIEW`;
+            document.getElementById('modalBadge').style.backgroundColor = "#fef3c7";
+            document.getElementById('modalBadge').style.color = "#d97706";
+
+            document.getElementById('modalTitle').innerText = title;
+            
+            document.getElementById('modalBody').innerHTML = `
+                <img src="${imgUrl}" class="full-poster-img" alt="${title}">
+                <br>
+                <button onclick="closeModal()" style="margin-top:1.5rem; background:#0f172a; color:#fff; border:none; padding:10px 24px; border-radius:6px; font-weight:600; cursor:pointer;">
+                    <i class="fa-solid fa-circle-xmark"></i> Tutup Poster
+                </button>
+            `;
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            container.scrollTop = 0;
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
